@@ -8,4 +8,6 @@ public interface InterestDao extends JpaRepository<Interest, Integer> {
 
 	Interest findByUserId(int userId);
 
+	boolean existsByUserId(Integer id);
+
 }

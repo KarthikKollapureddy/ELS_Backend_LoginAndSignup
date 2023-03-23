@@ -4,16 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ELearning.DAO.InterestDao;
 import com.ELearning.DAO.LoginDao;
+import com.ELearning.DAO.ModeDao;
 import com.ELearning.DAO.RegisterDao;
 import com.ELearning.Exceptions.InvalidLogin;
 import com.ELearning.Exceptions.UserAlredyExists;
 import com.ELearning.Exceptions.UserNotFound;
 import com.ELearning.model.Interest;
 import com.ELearning.model.LoginUser;
+import com.ELearning.model.ModeBean;
 import com.ELearning.model.RegisterUser;
 
-import org.springframework.stereotype.Service;
+import coms.Admin.bean.Subjects;
 
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,7 +38,13 @@ public class MainServiceImpl implements MainService {
 	InterestDao intDao;
 	
 	@Autowired
+	ModeDao modDao;
+	
+	@Autowired
 	SecurityService securityService;
+	
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@Override
 	public Map<String,String> loginUser(String userName, String pass) throws InvalidLogin {
@@ -125,8 +138,84 @@ public class MainServiceImpl implements MainService {
 		
 		Interest res=new Interest(req.get(0),req.get(1),req.get(2),id);
 		return intDao.save(res);
+		
 	}
 
+
+	@Override
+	public Interest getIntrst(Integer userId) {
+		// TODO Auto-generated method stub
+	return intDao.findByUserId(userId);
+	}
+
+
+	@Override
+	public RegisterUser findUser(Integer userId) throws UserNotFound {
+		// TODO Auto-generated method stub
+		RegisterUser reg=registerDao.findByUserId(userId);
+		if(reg!=null) {
+			return reg;
+		}
+		throw new UserNotFound();
+	}
+	
+	@Override
+	public Map<String, String> interests(int id) {
+		// TODO Auto-generated method stub
+		Interest intrst= intDao.findByUserId(id);
+		Subjects sub1,sub2,sub3;
+		sub1=restTemplate.getForObject("http://localhost:8787/elearning/api/admin/getSubject/"+intrst.getIntrst1(), Subjects.class);
+		sub2=restTemplate.getForObject("http://localhost:8787/elearning/api/admin/getSubject/"+intrst.getIntrst2(), Subjects.class);
+		sub3=restTemplate.getForObject("http://localhost:8787/elearning/api/admin/getSubject/"+intrst.getIntrst3(), Subjects.class);
+		Map<String,String> res=new HashMap<>();
+		
+		res.put("interest1", sub1.getSubName());
+		res.put("interest2", sub2.getSubName());
+		res.put("interest3", sub3.getSubName());
+		
+		return res;
+		
+	}
+
+
+	@Override
+	public ModeBean saveMode(int id, int val) throws Exception {
+		// TODO Auto-generated method stub
+		ModeBean mod=new ModeBean(val,id);
+		if(!modDao.existsByUserId(id)) {
+		return modDao.save(mod);
+	}
+		throw new Exception("Already added");
+
+	}
+
+
+	@Override
+	public Interest editInterest(List<Integer> req, Integer id) throws Exception {
+		// TODO Auto-generated method stub
+		if(intDao.existsByUserId(id)) {
+			Interest res1=intDao.findByUserId(id);
+		 		 res1.setIntrst1(req.get(0));
+		 res1.setIntrst2(req.get(1));
+		 res1.setIntrst3(req.get(2));
+		return intDao.saveAndFlush(res1);
+		}
+		throw new Exception("Error");
+	}
+
+
+	@Override
+	public List<RegisterUser> search(String val) {
+		// TODO Auto-generated method stub
+		List<RegisterUser> res=registerDao.findAll();
+		List<RegisterUser> fres=new ArrayList<RegisterUser>();
+		for(RegisterUser reg:res) {
+			if(reg.getFirstName().contains(val) || reg.getLastName().contains(val)) {
+				fres.add(reg);
+			}
+		}
+		return fres;
+	}
 
 	
 	}

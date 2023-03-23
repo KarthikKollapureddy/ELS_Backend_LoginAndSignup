@@ -3,7 +3,7 @@ package com.ELearning;
 import com.ELearning.DAO.LoginDao;
 import com.ELearning.DAO.RegisterDao;
 
-import com.ELearning.Exceptions.GlobalExceptionHandler;
+import com.ELearning.Exceptions.GlobalExceptionHandlers;
 import com.ELearning.Exceptions.InvalidLogin;
 import com.ELearning.Exceptions.UserAlredyExists;
 import com.ELearning.Exceptions.UserNotFound;
@@ -51,7 +51,7 @@ public class UserServiceTest {
 
     
     @InjectMocks
-    private GlobalExceptionHandler exp;
+    private GlobalExceptionHandlers exp;
     
 
     @InjectMocks
@@ -65,7 +65,7 @@ public class UserServiceTest {
 
     private LoginUser userLogin,userLogin1;
 
-    @SuppressWarnings("deprecation")
+   
 	@BeforeEach
     public void setup(){
     	user = new RegisterUser(1,"abc.xyz12@gmail.com","ABC","XYZ","Abc@Xyz12","984498393","2000-01-01","female",3);

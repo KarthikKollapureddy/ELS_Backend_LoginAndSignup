@@ -21,32 +21,32 @@ public class Interest {
 	public int getIntId() {
 		return intrstId;
 	}
-	public void setIntId(int intId) {
-		this.intrstId = intId;
+	public void setIntrstId(int intrstId) {
+		this.intrstId = intrstId;
 	}
-	public int getInt1() {
+	public int getIntrst1() {
 		return intrst1;
 	}
-	public void setInt1(int int1) {
-		this.intrst1 = int1;
+	public void setIntrst1(int intrst1) {
+		this.intrst1 = intrst1;
 	}
-	public int getInt2() {
+	public int getIntrst2() {
 		return intrst2;
 	}
-	public void setInt2(int int2) {
-		this.intrst2 = int2;
+	public void setIntrst2(int intrst2) {
+		this.intrst2 = intrst2;
 	}
-	public int getInt3() {
+	public int getIntrst3() {
 		return intrst3;
 	}
-	public void setInt3(int int3) {
-		this.intrst3 = int3;
+	public void setIntrst3(int intrst3) {
+		this.intrst3 = intrst3;
 	}
-	public Interest(int int1, int int2, int int3,int userId) {
+	public Interest(int intrst1, int intrst2, int intrst3,int userId) {
 		super();
-		this.intrst1 = int1;
-		this.intrst2 = int2;
-		this.intrst3 = int3;
+		this.intrst1 = intrst1;
+		this.intrst2 = intrst2;
+		this.intrst3 = intrst3;
 		this.userId = userId;
 	}
 	public Interest() {

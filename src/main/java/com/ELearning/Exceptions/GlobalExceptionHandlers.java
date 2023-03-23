@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @Component
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandlers {
 	
 	@ExceptionHandler(UserAlredyExists.class)
 	public ResponseEntity<String> userAlredyExists(){

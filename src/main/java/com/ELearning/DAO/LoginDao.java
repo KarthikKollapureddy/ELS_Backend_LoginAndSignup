@@ -16,4 +16,6 @@ public interface LoginDao extends JpaRepository<LoginUser, Integer> {
 	
 	LoginUser findByUserName(String userName);
 
+	//LoginUser findByUserId(Integer id);
+
 }
